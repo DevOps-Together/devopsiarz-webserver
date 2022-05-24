@@ -1,3 +1,3 @@
 ## Czytaj issues
 
-https://github.com/DevOps-Together/webserver/issues
+https://github.com/DevOps-Together/devopsiarz-webserver/issues
