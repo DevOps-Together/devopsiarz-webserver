@@ -1,6 +1,6 @@
 ## Ważne
 
-https://github.com/DevOps-Together/devopsiarz-webserver/issues - zapytania, problemy, plany
+https://github.com/DevOps-Together/devopsiarz-webserver/issues - zapytania, problemy, plany, dzienniczki
 
 ### Co robimy tutaj
 
