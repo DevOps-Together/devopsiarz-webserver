@@ -1,0 +1,1 @@
+1. Uruchomić "python3 web-server.py"
