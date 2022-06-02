@@ -1,5 +1,5 @@
 import http
-from http.server import BaseHTTPRequestHandler, HTTPServer
+from http.server import HTTPServer
 import time
 
 hostName = "localhost"
