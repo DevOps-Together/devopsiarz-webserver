@@ -1,0 +1,20 @@
+// This is not correct JSON file because of comments
+{
+    // port to listen on
+    "port": 80
+    // path to html documents catalog
+    "web_directory": "./www",
+    // names of files that will be treated as index. If file is not found, next pattern is checked. * replaces any number of any characters
+    "index_files": [
+        "index.html",
+        "index",
+        "*.html"
+    ],
+    // none or http-basic
+    "security": "none",
+    // if http-basic is set
+    // "username": "username",
+    // "password": "password"
+    // if index is not found, should server display list of files instead?
+    "list_files": true
+}
