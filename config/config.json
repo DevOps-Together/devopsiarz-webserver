@@ -1,0 +1,8 @@
+{
+	"port":8080,
+	"hostname": "localhost",
+	"address_server": "127.0.0.1",
+	"start-html": ["index.html"],
+	"web-directory": "./resources/"
+}
+
