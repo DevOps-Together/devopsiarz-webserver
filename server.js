@@ -18,9 +18,10 @@ const requestListener = function (req, res) {
         console.log('www root index');
         fs.readFile(wwwRoot + 'index.html', 'UTF-8', (err, data) => {
             if (err) {
+                console.log(err);
                 return error404(res);
             }
-            res.writeHead(200);
+            res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(data);
         })
     }
