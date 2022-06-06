@@ -1,5 +1,4 @@
-from distutils.log import info
-import imp
+from logging import info
 import sys
 from config_loader import load_config
 from logging_config import setup_logging

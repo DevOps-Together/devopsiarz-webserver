@@ -13,3 +13,5 @@ class Configuration:
     username:str = ''
     password:str = ''
     list_files:bool = False
+    def __init__(self, dict):
+        self.__dict__.update(dict)
