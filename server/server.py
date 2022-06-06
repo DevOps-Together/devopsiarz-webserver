@@ -1,5 +1,12 @@
-import http
+from enum import Enum
+from http.server import ThreadingHTTPServer
+from logging import error, info
 from model.config import Configuration
+from server.request_handlers import HttpBasicRequestHandler, InsecureRequestHandler
+
+class Security(Enum):
+    HTTP_BASIC = 'http-basic'
+    NONE = 'none'
 
 class Server:
     _config: Configuration
@@ -7,9 +14,18 @@ class Server:
     def __init__(self, config: Configuration):
         self._config = config
     
-    def start():
-        # TODO: loop listening on port from configuration, starting a new thread for each incoming connection (use some kind of thread pool with limit on maximal number of threads)
-        # TODO: threads that establish connection, retrive and return resource or appropriate error
-        # TODO: handle http basic auth for incoming connections
-        # TODO: cleanup of all threads and resources on exit
+    def start(self):
+        server_address = (self._config.address, self._config.port)
+        server = None
+        if self._config.security == Security.NONE:
+            info("Starting server with no security.")
+            server = ThreadingHTTPServer(server_address, lambda a, b, webserver: InsecureRequestHandler(a, b, webserver, self._config))
+        elif self._config.security == Security.HTTP_BASIC:
+            info("Starting server with http basic auth security.")
+            server = ThreadingHTTPServer(server_address, lambda a, b, webserver: HttpBasicRequestHandler(a, b, webserver, self._config))
+        else:
+            error("Unknown security mode: %s. Server is shutting down.".format(self._config.security))
+            return
+        server.serve_forever()
+        info("Server stopped.")
         return

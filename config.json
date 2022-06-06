@@ -1,5 +1,6 @@
 {
     "port": 80,
+    "address": "0.0.0.0",
     "web_directory": "./www",
     "index_files": [
         "index.html",
