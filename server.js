@@ -14,7 +14,6 @@ const requestListener = function (req, res) {
     const url_parts = url.parse(req.url);
 
     // map request url to filesystem:
-
     const indexRegex = /(.*?\/$)|(.*?\/index.html$)/g;
     if (url_parts.pathname.match(indexRegex)) {
         console.log(`index page for ${url_parts.pathname}`);
@@ -29,8 +28,27 @@ const requestListener = function (req, res) {
         fs.readFile(wwwRoot + filepath, 'UTF-8', (err, data) => {
             if (err) {
                 console.log(err);
+                if (err.errno === -2) {
+                    let fsPath = err.path
+                    console.log(`resolved filepath (not found): ${fsPath}`)
+                    // file index.html not found. Check if directory exists and list files instead
+                    fsPath = fsPath.substring(0, fsPath.length - 10);  // index.html => 10 chars
+                    fs.lstat(fsPath, (err, stats) => {
+                        if (err) {
+                            if (err.code !== -2) console.log(err);
+                            return error404(res);
+                        }
+                        // at this point it has to be directory (or link?)
+                        if (!stats.isDirectory()) {
+                            return error404(res);
+                        }
+                    });
+                    return listFiles(res, filepath);
+                }
+                // else just return 404
                 return error404(res);
             }
+            // display index.html file
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(data);
         })
@@ -41,6 +59,11 @@ const requestListener = function (req, res) {
 
     //  res.end(`url: ${JSON.stringify(url_parts)} `);
 };
+
+const listFiles = (res, filepath) => {
+    res.writeHead(200);
+    res.end(`list file in folder ${filepath}`);
+}
 
 const error404 = (res) => {
     res.writeHead(404);
