@@ -1,0 +1,15 @@
+{
+    "port": 8080,
+    "address": "0.0.0.0",
+    "web_directory": ".\\resources\\www",
+    "log_file": "log\\httpy.log",
+    "log_format": "%(asctime)s - %(module)s.%(funcName)s:%(lineno)d - %(levelname)s - %(message)s",
+    "index_files": [
+        "index.html",
+        "index.js",
+        "index",
+        "*.html"
+    ],
+    "security": "none",
+    "list_files": true
+}
