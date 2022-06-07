@@ -14,7 +14,7 @@ class MyServer(http.server.SimpleHTTPRequestHandler):
             self.path = 'index.html'
         return http.server.SimpleHTTPRequestHandler.do_GET(self)
 
-if __name__ == "__main__":        
+if __name__ == "__main__":
     webServer = HTTPServer((hostName, serverPort), MyServer)
     print("Serwer: http://%s:%s" % (hostName, serverPort))
 
