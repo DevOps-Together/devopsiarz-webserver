@@ -17,14 +17,14 @@ class Server:
     def start(self):
         server_address = (self._config.address, self._config.port)
         server = None
-        if self._config.security == Security.NONE:
+        if self._config.security == Security.NONE.value:
             info("Starting server with no security.")
             server = ThreadingHTTPServer(server_address, lambda a, b, webserver: InsecureRequestHandler(a, b, webserver, self._config))
-        elif self._config.security == Security.HTTP_BASIC:
+        elif self._config.security == Security.HTTP_BASIC.value:
             info("Starting server with http basic auth security.")
             server = ThreadingHTTPServer(server_address, lambda a, b, webserver: HttpBasicRequestHandler(a, b, webserver, self._config))
         else:
-            error("Unknown security mode: %s. Server is shutting down.".format(self._config.security))
+            error("Unknown security mode: {1}. Server is shutting down.".format(self._config.security))
             return
         server.serve_forever()
         info("Server stopped.")
