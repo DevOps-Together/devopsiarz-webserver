@@ -35,7 +35,7 @@ const requestListener = function (req, res) {
                     fsPath = fsPath.substring(0, fsPath.length - 10);  // index.html => 10 chars
                     fs.lstat(fsPath, (err, stats) => {
                         if (err) {
-                            if (err.code !== -2) console.log(err);
+                            if (err.errno !== -2) console.log(err);
                             return error404(res);
                         }
                         // at this point it has to be directory (or link?)
