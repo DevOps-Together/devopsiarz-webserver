@@ -2,7 +2,7 @@ const http = require("http");
 const url = require("url");
 const fs = require("fs");
 
-const wwwRoot = __dirname + '/www/';
+const wwwRoot = __dirname + '/www';
 console.log(wwwRoot);
 
 const host = 'localhost';
@@ -14,9 +14,19 @@ const requestListener = function (req, res) {
     const url_parts = url.parse(req.url);
 
     // map request url to filesystem:
-    if (url_parts.pathname === '/' || url_parts.pathname === '/index.html') {
-        console.log('www root index');
-        fs.readFile(wwwRoot + 'index.html', 'UTF-8', (err, data) => {
+
+    const indexRegex = /(.*?\/$)|(.*?\/index.html$)/g;
+    if (url_parts.pathname.match(indexRegex)) {
+        console.log(`index page for ${url_parts.pathname}`);
+        const filepath = url_parts.pathname.endsWith('index.html') ? url_parts.pathname : url_parts.pathname + 'index.html'
+
+        // some security check
+        if (filepath.includes('../')) {
+            console.log("hacker detected");
+            return error404(res);
+        }
+
+        fs.readFile(wwwRoot + filepath, 'UTF-8', (err, data) => {
             if (err) {
                 console.log(err);
                 return error404(res);
@@ -24,6 +34,9 @@ const requestListener = function (req, res) {
             res.writeHead(200, {'Content-Type': 'text/html'});
             res.end(data);
         })
+    } else {
+        res.writeHead(200, {'Content-Type': 'text/plain'});
+        res.end('not implemented yet');
     }
 
     //  res.end(`url: ${JSON.stringify(url_parts)} `);
