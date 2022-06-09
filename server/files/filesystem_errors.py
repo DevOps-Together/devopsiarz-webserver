@@ -1,8 +1,8 @@
 class FileNotFoundError(Exception):
-    path: str
+    pass
 
 class PathOutOfScopeError(Exception):
-    path: str
+    pass
 
 class FileReadError(Exception):
-    path: str
+    pass
