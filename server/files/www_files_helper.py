@@ -19,7 +19,8 @@ def get_file_descriptor_for_path(os_path: str, config: Configuration) -> FileRes
                 return get_files_list_response(os_path, config)
         elif fsh.is_file(os_path):
             return get_file_response(os_path)
-        raise FileNotFoundError()
+        else:
+            raise FileNotFoundError()
     else:
         raise PathOutOfScopeError()
 
