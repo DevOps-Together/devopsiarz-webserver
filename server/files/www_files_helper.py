@@ -1,6 +1,5 @@
 from importlib.metadata import files
 from io import BytesIO
-import os
 import sys
 import server.files.filesystem_helper as fsh
 from server.files.filesystem_errors import FileNotFoundError
@@ -15,7 +14,7 @@ def get_file_descriptor_for_path(os_path: str, config: Configuration) -> FileRes
         if fsh.is_directory(os_path):
             for indexfile in config.index_files:
                 if fsh.does_directory_contain(os_path, indexfile):
-                    return get_file_response(os.path.join(os_path, indexfile))
+                    return get_file_response(fsh.concat_paths(os_path, indexfile))
             if config.list_files:
                 return get_files_list_response(os_path, config)
         elif fsh.is_file(os_path):
@@ -40,7 +39,7 @@ def wrap_files_list_in_html(os_path: str, files: list, config: Configuration) ->
     body = []
     body.append("<html><body><main><ul>")
     for filename in files:
-        filepath = os.path.join(os_path, filename).removeprefix(config.web_directory)
+        filepath = fsh.concat_paths(os_path, filename).removeprefix(config.web_directory)
         body.append("<li><a href='{0}'>{1}</a></li>".format( filepath, filename))
     body.append("</ul></main></body></html>")
     return body
