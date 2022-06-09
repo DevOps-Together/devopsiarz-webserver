@@ -1,3 +1,5 @@
 __pycache__
 log/httpy.log
 .vscode
+*.jpg
+*.zip
