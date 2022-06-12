@@ -1,8 +1,9 @@
-package main
+package config
 
 import (
 	"fmt"
 	"io/ioutil"
+	"os"
 
 	"gopkg.in/yaml.v3"
 )
@@ -19,18 +20,20 @@ func (c *Config) Parse(content []byte) error {
 	return yaml.Unmarshal(content, c)
 }
 
-func main() {
+func configuration_server() {
 	name_config := "config.yml"
 	fmt.Println("Wczytywanie plik konfiguracyjnego: ", name_config)
 	content, err := ioutil.ReadFile(name_config)
 	if err != nil {
 		fmt.Println("Nie udalo sie odczytac zawartosc pliku ", name_config)
+		os.Exit(1)
 	}
 	var config Config
 	if err := config.Parse(content); err != nil {
 		fmt.Println(err)
+		os.Exit(2)
 	}
-	fmt.Println("Zawartosc konfiguracji: \n")
+	fmt.Println("Zawartosc konfiguracji: ")
 	fmt.Printf("Port = %d\n", config.Port)
 	fmt.Printf("Hostname = %s\n", config.Hostname)
 	fmt.Printf("Address server = %s\n", config.Adress_server)
