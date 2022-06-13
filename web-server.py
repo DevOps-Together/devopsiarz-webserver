@@ -19,7 +19,7 @@ try:
 
     # Set the IP address
 
-    server_address = ('localhost', port)
+    server_address = ('0.0.0.0', port)
 
     # Create object for handling HTTP requests
 
