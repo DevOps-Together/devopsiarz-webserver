@@ -28,4 +28,4 @@ def get_file_contents(path):
     return open(path, 'rb'), os.stat(path)[6]
 
 def get_file_mimetype(path):
-    return mimetypes.guess_type(path)[1]
+    return mimetypes.guess_type(path)[0]

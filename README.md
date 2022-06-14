@@ -1,4 +1,4 @@
-# Simple webserver by java programmer who is using python for the first time
+# Prosty serwer HTTP napisany przez programistę Javy bez doświadczenia w pythnie 😃
 
 Poniżej widzisz mój pseudo issue tracker, jako że nie chcę zaspamić emaili współkursantów tworząc issues do wszystkiego. 
 ## Minimalna funkcjonalność:
@@ -13,17 +13,17 @@ Poniżej widzisz mój pseudo issue tracker, jako że nie chcę zaspamić emaili 
 - Jak w katalogu jest plik `index.html`, wtedy zamiast listingu, niech przeglądarka wyświetli jego zawartość.
 
 ## Dodatkowa funkcjonalność:
+- Pliki nie-html obsługiwane z rozpoznawaniem mimetype. Np. obrazki wyświetlane jako obrazki przez przeglądarkę.
+- Pobieranie dla plików większych niż określony rozmiar i/lub o określonych rozszerzeniach i/lub mimetype. (Przeglądarka sama decyduje co zrobić z plikiem zależnie od mimetype)
 
 ### Backlog:
-- Pliki nie-html obsługiwane z rozpoznawaniem mimetype. Np. obrazki wyświetlane jako obrazki przez przeglądarkę.
-- Pobieranie dla plików większych niż określony rozmiar i/lub o określonych rozszerzeniach i/lub mimetype.
 - Lista plików index z prostym regexem/globem.
 
 ### Do testów:
-- Autentykacja użytkowników metodą http basic auth.
-
+- 
 ### Działająca:
 - Określanie lokalizacji wypisania logów.
+- Autentykacja użytkowników metodą http basic auth.
 
 ## Lista życzeń
 - Możliwość włączenia/wyłączenia wypisywania logów do pliku
@@ -31,7 +31,7 @@ Poniżej widzisz mój pseudo issue tracker, jako że nie chcę zaspamić emaili 
 - Wypisywanie logów do pliku i na stdout mogą być równocześnie włączone
 
 ## Bugi:
-- Obrazki są wyświetlane jako tekst w przeglądarce (prawdopodobnie mimetype ustawiony na text/html)
+- 
 
 ## Tech debt:
 - Wypadało by dodać logowanie w request handlerach, zwłaszcza przy odrzucaniu i akceptowaniu credentiali użytkownika.
