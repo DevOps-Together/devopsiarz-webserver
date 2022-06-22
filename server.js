@@ -11,13 +11,13 @@ const port = 8000;
 const requestListener = function (req, res) {
 
     console.log(`url : ${req.url}`);
-    const url_parts = url.parse(req.url);
+    const urlParts = url.parse(req.url);
 
     // map request url to filesystem:
     const indexRegex = /(.*?\/$)|(.*?\/index.html$)/g;
-    if (url_parts.pathname.match(indexRegex)) {
-        console.log(`index page for ${url_parts.pathname}`);
-        const filepath = url_parts.pathname.endsWith('index.html') ? url_parts.pathname : url_parts.pathname + 'index.html'
+    if (urlParts.pathname.match(indexRegex)) {
+        console.log(`index page for ${urlParts.pathname}`);
+        const filepath = urlParts.pathname.endsWith('index.html') ? urlParts.pathname : urlParts.pathname + 'index.html'
 
         // some security check
         if (filepath.includes('../')) {
@@ -57,7 +57,7 @@ const requestListener = function (req, res) {
         res.end('not implemented yet');
     }
 
-    //  res.end(`url: ${JSON.stringify(url_parts)} `);
+    //  res.end(`url: ${JSON.stringify(urlParts)} `);
 };
 
 const listFiles = (res, filepath) => {
