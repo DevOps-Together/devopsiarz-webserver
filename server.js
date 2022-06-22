@@ -3,7 +3,6 @@ const url = require("url");
 const fs = require("fs");
 
 const wwwRoot = __dirname + '/www';
-console.log(wwwRoot);
 
 const host = 'localhost';
 const port = 8000;
@@ -44,7 +43,7 @@ const requestListener = function (req, res) {
                             return error404(res);
                         }
                     });
-                    return listFiles(res, filepath);
+                    return listFiles(res, fsPath);
                 }
                 // else just return 404
                 return error404(res);
@@ -54,12 +53,34 @@ const requestListener = function (req, res) {
             res.end(data);
         })
     } else {
-        res.writeHead(200, {'Content-Type': 'text/plain'});
-        res.end('not implemented yet');
-    }
+        // as it's not an index page then it could be folder w/o slash or regular file
+        fs.readFile(wwwRoot + urlParts.pathname, 'UTF-8', (err, data) => {
+                if (err) {
+                    // err read from directory
+                    if (err.errno === -21) {
+                        console.log("dupa jer");
+                        res.writeHead(301, {
+                            'Location': req.url + '/'
+                        });
+                        res.end();
+                        return;
+                    }
 
-    //  res.end(`url: ${JSON.stringify(urlParts)} `);
-};
+                    // err no file (or directory but dir is already resolved)
+                    if (err.errno === -2) {
+                        return error404(res);
+                    }
+
+                    // well at this point lets throw 500 ;)
+                    return error500(res);
+                }
+                res.writeHead(200, {'Content-Type': 'text/plain'});
+                res.end('not implemented yet');
+            }
+        )
+    }
+}
+
 
 const listFiles = (res, filepath) => {
     res.writeHead(200);
@@ -69,6 +90,11 @@ const listFiles = (res, filepath) => {
 const error404 = (res) => {
     res.writeHead(404);
     res.end("File not found");
+}
+
+const error500 = (res) => {
+    res.writeHead(500);
+    res.end("internal server error");
 }
 
 const server = http.createServer(requestListener);
