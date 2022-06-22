@@ -74,6 +74,10 @@ const requestListener = function (req, res) {
                     // well at this point lets throw 500 ;)
                     return error500(res);
                 }
+
+                //display file if extension is supported:
+                const extension = getExtension(fPath)
+                // else
                 res.writeHead(200, {'Content-Type': 'text/plain'});
                 res.end('not implemented yet');
             }
@@ -81,6 +85,14 @@ const requestListener = function (req, res) {
     }
 }
 
+const getExtension = (filepath) => path.extname(filepath).replace('.', '').toLowerCase();
+
+const getMimeType = function (extension) {
+    if (extension === 'txt') return 'text/plain'
+    if (extension === 'html') return 'text/html'
+    // return sth
+    return "text/plain"
+}
 
 const listFiles = (res, filepath) => {
     const buffer = fs.readFileSync(__dirname + '/templates/listing.html');
@@ -94,7 +106,7 @@ const listFiles = (res, filepath) => {
         }
 
         files.forEach(file => {
-            const ext = path.extname(file).replace('.', '').toLowerCase();
+            const ext = getExtension(file);
             fileList += extList.includes(ext) ? `<li><a href="${urlPath + file}">${file}</a></li>` : `<li>${file}</li>`
         });
 
