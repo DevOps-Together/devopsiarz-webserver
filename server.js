@@ -1,6 +1,7 @@
 const http = require("http");
 const url = require("url");
 const fs = require("fs");
+const path = require("path");
 
 const wwwRoot = __dirname + '/www';
 
@@ -28,7 +29,6 @@ const requestListener = function (req, res) {
             if (err) {
                 if (err.errno === -2) {
                     let fsPath = err.path
-                    console.log(`resolved filepath (not found): ${fsPath}`)
                     // file index.html not found. Check if directory exists and list files instead
                     fsPath = fsPath.substring(0, fsPath.length - 10);  // index.html => 10 chars
                     console.log(fsPath);
@@ -81,8 +81,26 @@ const requestListener = function (req, res) {
 
 
 const listFiles = (res, filepath) => {
-    res.writeHead(200);
-    res.end(`list file in folder ${filepath}`);
+    const buffer = fs.readFileSync(__dirname + '/templates/listing.html');
+    let template = buffer.toString();
+    let urlPath = filepath.replace(wwwRoot, '');
+    fs.readdir(filepath, (err, files) => {
+        //add link to parent dir if not www root
+        let fileList = ''
+        if (wwwRoot + '/' !== filepath) {
+            fileList += `<li><a href="${path.dirname(urlPath)}">. .</a></li>`
+        }
+
+        files.forEach(file => {
+            fileList += `<li><a href="${urlPath + file}">${file}</a></li>`
+        });
+
+        template = template.replace('[files]', fileList);
+        template = template.replace(/\[path\]/g, urlPath);
+
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end(template);
+    });
 }
 
 const error404 = (res) => {
