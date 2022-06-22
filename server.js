@@ -26,7 +26,6 @@ const requestListener = function (req, res) {
 
         fs.readFile(wwwRoot + filepath, 'UTF-8', (err, data) => {
             if (err) {
-                console.log(err);
                 if (err.errno === -2) {
                     let fsPath = err.path
                     console.log(`resolved filepath (not found): ${fsPath}`)
@@ -58,7 +57,6 @@ const requestListener = function (req, res) {
                 if (err) {
                     // err read from directory
                     if (err.errno === -21) {
-                        console.log("dupa jer");
                         res.writeHead(301, {
                             'Location': req.url + '/'
                         });
