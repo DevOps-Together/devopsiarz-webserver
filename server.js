@@ -88,13 +88,16 @@ const listFiles = (res, filepath) => {
 }
 
 const error404 = (res) => {
-    res.writeHead(404);
-    res.end("File not found");
+    return _error(res, 404, "File not found");
 }
 
 const error500 = (res) => {
-    res.writeHead(500);
-    res.end("internal server error");
+    return _error(res, 500, "Internal Server Error");
+}
+
+const _error = (res, code, msg) => {
+    res.writeHead(code);
+    res.end(msg);
 }
 
 const server = http.createServer(requestListener);
