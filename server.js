@@ -55,7 +55,8 @@ const requestListener = function (req, res) {
         })
     } else {
         // as it's not an index page then it could be folder w/o slash or regular file
-        fs.readFile(wwwRoot + urlParts.pathname, 'UTF-8', (err, data) => {
+        const fPath = wwwRoot + urlParts.pathname;
+        fs.readFile(fPath, 'UTF-8', (err, data) => {
                 if (err) {
                     // err read from directory
                     if (err.errno === -21) {
@@ -77,6 +78,12 @@ const requestListener = function (req, res) {
 
                 //display file if extension is supported:
                 const extension = getExtension(fPath)
+                if (extList.includes(extension)) {
+                    const mimeType = getMimeType(extension);
+                    res.writeHead(200, {'Content-Type': mimeType});
+                    res.end(data);
+                    return;
+                }
                 // else
                 res.writeHead(200, {'Content-Type': 'text/plain'});
                 res.end('not implemented yet');
