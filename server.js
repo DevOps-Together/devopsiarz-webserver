@@ -12,19 +12,16 @@ const extList = ['txt', 'html'];
 
 const requestListener = function (req, res) {
 
-    console.log(`url : ${req.url}`);
     const urlParts = url.parse(req.url);
 
     // some security check
     if (urlParts.pathname.includes('../')) {
-        console.log("hacker detected");
         return error404(res);
     }
 
     // map request url to filesystem:
     const indexRegex = /(.*?\/$)|(.*?\/index.html$)/g;
     if (urlParts.pathname.match(indexRegex)) {
-        console.log(`index page for ${urlParts.pathname}`);
         const filepath = urlParts.pathname.endsWith('index.html') ? urlParts.pathname : urlParts.pathname + 'index.html'
 
         fs.readFile(wwwRoot + filepath, 'UTF-8', (err, data) => {
@@ -33,7 +30,6 @@ const requestListener = function (req, res) {
                     let fsPath = err.path
                     // file index.html not found. Check if directory exists and list files instead
                     fsPath = fsPath.substring(0, fsPath.length - 10);  // index.html => 10 chars
-                    console.log(fsPath);
                     fs.stat(fsPath, (err, stats) => {
                         if (err) {
                             if (err.errno !== -2) console.log(err);
