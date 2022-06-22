@@ -101,24 +101,27 @@ const listFiles = (res, filepath) => {
     const buffer = fs.readFileSync(__dirname + '/templates/listing.html');
     let template = buffer.toString();
     let urlPath = filepath.replace(wwwRoot, '');
-    fs.readdir(filepath, (err, files) => {
-        //add link to parent dir if not www root
-        let fileList = ''
-        if (wwwRoot + '/' !== filepath) {
-            fileList += `<li><a href="${path.dirname(urlPath)}">. .</a></li>`
-        }
+    fs.readdir(filepath,
+        (err, files) => {
+            //add link to parent dir if not www root
+            let fileList = ''
+            if (wwwRoot + '/' !== filepath) {
+                fileList += `<li><a href="${path.dirname(urlPath)}">. .</a></li>`
+            }
 
-        files.forEach(file => {
-            const ext = getExtension(file);
-            fileList += extList.includes(ext) ? `<li><a href="${urlPath + file}">${file}</a></li>` : `<li>${file}</li>`
+            files.forEach(file => {
+                const ext = getExtension(file);
+                const isDirectory = checkIsSubdirectory(filepath + file);
+                const supported = extList.includes(ext) || isDirectory;
+                fileList += supported ? `<li><a href="${urlPath + file}">${file}</a></li>` : `<li>${file}</li>`
+            });
+
+            template = template.replace('[files]', fileList);
+            template = template.replace(/\[path\]/g, urlPath);
+
+            res.writeHead(200, {'Content-Type': 'text/html'});
+            res.end(template);
         });
-
-        template = template.replace('[files]', fileList);
-        template = template.replace(/\[path\]/g, urlPath);
-
-        res.writeHead(200, {'Content-Type': 'text/html'});
-        res.end(template);
-    });
 }
 
 const error404 = (res) => {
@@ -132,6 +135,15 @@ const error500 = (res) => {
 const _error = (res, code, msg) => {
     res.writeHead(code);
     res.end(msg);
+}
+
+const checkIsSubdirectory = function (fPath) {
+    try {
+        fs.readFileSync(fPath + '/')
+    } catch (e) {
+        return e.errno === -21;
+    }
+
 }
 
 const server = http.createServer(requestListener);
