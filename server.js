@@ -13,17 +13,17 @@ const requestListener = function (req, res) {
     console.log(`url : ${req.url}`);
     const urlParts = url.parse(req.url);
 
+    // some security check
+    if (urlParts.pathname.includes('../')) {
+        console.log("hacker detected");
+        return error404(res);
+    }
+
     // map request url to filesystem:
     const indexRegex = /(.*?\/$)|(.*?\/index.html$)/g;
     if (urlParts.pathname.match(indexRegex)) {
         console.log(`index page for ${urlParts.pathname}`);
         const filepath = urlParts.pathname.endsWith('index.html') ? urlParts.pathname : urlParts.pathname + 'index.html'
-
-        // some security check
-        if (filepath.includes('../')) {
-            console.log("hacker detected");
-            return error404(res);
-        }
 
         fs.readFile(wwwRoot + filepath, 'UTF-8', (err, data) => {
             if (err) {
