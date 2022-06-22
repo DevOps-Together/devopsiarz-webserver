@@ -13,8 +13,8 @@ def get_file_descriptor_for_path(os_path: str, config: Configuration) -> FileRes
     if fsh.is_below_directory(os_path, config.web_directory):
         if fsh.is_directory(os_path):
             for indexfile in config.index_files:
-                if fsh.does_directory_contain(os_path, indexfile):
-                    return get_file_response(fsh.concat_paths(os_path, indexfile))
+                if file_path := fsh.does_directory_contain(os_path, indexfile):
+                    return get_file_response(file_path)
             if config.list_files:
                 return get_files_list_response(os_path, config)
         elif fsh.is_file(os_path):

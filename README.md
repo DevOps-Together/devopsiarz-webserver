@@ -15,10 +15,10 @@ Poniżej widzisz mój pseudo issue tracker, jako że nie chcę zaspamić emaili 
 ## Dodatkowa funkcjonalność:
 - Pliki nie-html obsługiwane z rozpoznawaniem mimetype. Np. obrazki wyświetlane jako obrazki przez przeglądarkę.
 - Pobieranie dla plików większych niż określony rozmiar i/lub o określonych rozszerzeniach i/lub mimetype. (Przeglądarka sama decyduje co zrobić z plikiem zależnie od mimetype)
-
-### Backlog:
 - Lista plików index z prostym regexem/globem.
 
+### Backlog:
+-
 ### Do testów:
 - 
 ### Działająca:

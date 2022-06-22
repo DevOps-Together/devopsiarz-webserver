@@ -11,7 +11,9 @@ This is not correct JSON file because of comments
     "log_format": ""
     // path to html documents catalog
     "web_directory": "./www",
-    // names of files that will be treated as index. If file is not found, next pattern is checked. * replaces any number of any characters
+    // names of files that will be treated as index. If file is not found, next pattern is checked.
+    // patterns starting with regexp:: are interpreted as python regular expressions. 
+    // I do not guarantee that regexp pattern will always result in server serving the same file if there are multiple files.
     "index_files": [
         "index.html",
         "index",

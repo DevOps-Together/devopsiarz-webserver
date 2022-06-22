@@ -8,7 +8,7 @@
         "index.html",
         "index.js",
         "index",
-        "*.html"
+        "regexp::.*\\.html"
     ],
     "security": "none",
     "list_files": true
