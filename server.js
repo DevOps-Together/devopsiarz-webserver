@@ -33,7 +33,8 @@ const requestListener = function (req, res) {
                     console.log(`resolved filepath (not found): ${fsPath}`)
                     // file index.html not found. Check if directory exists and list files instead
                     fsPath = fsPath.substring(0, fsPath.length - 10);  // index.html => 10 chars
-                    fs.lstat(fsPath, (err, stats) => {
+                    console.log(fsPath);
+                    fs.stat(fsPath, (err, stats) => {
                         if (err) {
                             if (err.errno !== -2) console.log(err);
                             return error404(res);
