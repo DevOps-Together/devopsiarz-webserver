@@ -8,6 +8,8 @@ const wwwRoot = __dirname + '/www';
 const host = 'localhost';
 const port = 8000;
 
+const extList = ['txt', 'html'];
+
 const requestListener = function (req, res) {
 
     console.log(`url : ${req.url}`);
@@ -92,7 +94,8 @@ const listFiles = (res, filepath) => {
         }
 
         files.forEach(file => {
-            fileList += `<li><a href="${urlPath + file}">${file}</a></li>`
+            const ext = path.extname(file).replace('.', '').toLowerCase();
+            fileList += extList.includes(ext) ? `<li><a href="${urlPath + file}">${file}</a></li>` : `<li>${file}</li>`
         });
 
         template = template.replace('[files]', fileList);
